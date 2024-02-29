@@ -7,25 +7,25 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TestObjectRandomizer {
+public class TestObjectFieldSetter {
 
-	private ObjectRandomizer randomizer;
+	private ObjectFieldSetter fieldSetter;
 
 	@BeforeEach
 	public void beforeEach() {
-		randomizer = new ObjectRandomizer(System.currentTimeMillis());
+		fieldSetter = new ObjectFieldSetter();
 	}
 
 	@Test
 	public void shouldCreateNotNullAccount() {
-		Account account = randomizer.generate(Account.class);
+		Account account = fieldSetter.get(Account.class);
 		assertThat(account).isNotNull();
 	}
 
 	@Test
 	public void shouldMakeRandomAccount() {
 		for(int i=0; i<10; i++) {
-			Account account = randomizer.generate(Account.class);
+			Account account = fieldSetter.get(Account.class);
 			assertThat(account).isNotNull();
 			assertThat(account.getFirstName()).isNotBlank();
 			assertThat(account.getLastName()).isNotBlank();
@@ -36,7 +36,7 @@ public class TestObjectRandomizer {
 	@Test
 	public void shouldMakeRandomProduct() {
 		for(int i=0; i<10; i++) {
-			Product product = randomizer.generate(Product.class);
+			Product product = fieldSetter.get(Product.class);
 			assertThat(product).isNotNull();
 			assertThat(product.getId()).isNotEqualTo(0);
 			assertThat(product.getName()).isNotBlank();
@@ -48,7 +48,7 @@ public class TestObjectRandomizer {
 	@Test
 	public void shouldMakeRandomPerson() {
 		for(int i=0; i<10; i++) {
-			Person person = randomizer.generate(Person.class);
+			Person person = fieldSetter.get(Person.class);
 			assertThat(person).isNotNull();
 			assertThat(person.getFirstName()).isNotBlank();
 			assertThat(person.getSecondName()).isNotBlank();
@@ -60,7 +60,7 @@ public class TestObjectRandomizer {
 	@Test
 	public void shouldMakeRandomRectangle() {
 		for(int i=0; i<10; i++) {
-			Rectangle rectangle = randomizer.generate(Rectangle.class);
+			Rectangle rectangle = fieldSetter.get(Rectangle.class);
 			assertThat(rectangle).isNotNull();
 			assertThat(rectangle.getHeight()).isNotCloseTo(0, Offset.offset(0.00001));
 			assertThat(rectangle.getWidth()).isNotCloseTo(0, Offset.offset(0.00001));
@@ -70,7 +70,7 @@ public class TestObjectRandomizer {
 	@Test
 	public void shouldMakeRandomDevice() {
 		for(int i=0; i<10; i++) {
-			Device device = randomizer.generate(Device.class);
+			Device device = fieldSetter.get(Device.class);
 			assertThat(device).isNotNull();
 			assertThat(device.getWeight()).isNotCloseTo(0.0f, Offset.offset(0.00001f));
 			assertThat(device.getCode()).isNotEqualTo('\u0000');
@@ -80,9 +80,8 @@ public class TestObjectRandomizer {
 	@Test
 	public void shouldMakeRandomPersonData() {
 		for(int i=0; i<100; i++) {
-			PersonData personData = randomizer.generate(PersonData.class);
+			PersonData personData = fieldSetter.get(PersonData.class);
 			assertThat(personData).isNotNull();
-			assertThat(personData.getAge()).isNotNull();
 			assertThat(personData.getAge()).isGreaterThan(0);
 			assertThat(personData.getAge()).isLessThan(4);
 		}
@@ -91,7 +90,7 @@ public class TestObjectRandomizer {
 	@Test
 	 public void shouldMakeRandomBook() {
 		 for(int i=0; i<100; i++) {
-			 Book book = randomizer.generate(Book.class);
+			 Book book = fieldSetter.get(Book.class);
 			 assertThat(book).isNotNull();
 			 assertThat(book.getAuthor()).isNotNull();
 			 assertThat(book.getAuthor().length()).isGreaterThan(9);
@@ -102,7 +101,7 @@ public class TestObjectRandomizer {
 	 @Test
 	 public void test() {
 		for(int i=0; i<10; i++) {
-			Elephant elephant = randomizer.generate(Elephant.class);
+			Elephant elephant = fieldSetter.get(Elephant.class);
 			assertThat(elephant).isNotNull();
 			assertThat(elephant.getWeight()).isNotNull();
 			assertThat(elephant.getWeight()).isNotEqualTo(0);

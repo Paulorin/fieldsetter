@@ -1,6 +1,5 @@
 package org.example.randomizer;
 
-import lombok.Getter;
 import org.example.randomizer.setter.*;
 import org.example.randomizer.supplier.PrimitiveIntSupplier;
 import org.example.randomizer.supplier.RandomBooleanSupplier;
@@ -10,24 +9,16 @@ import java.lang.ref.SoftReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
-public class ObjectRandomizer implements Randomizer {
-	@Getter
-	private final long seed;
+public class ObjectFieldSetter implements ObjectInitializer {
+
 	private final List<FieldSetterSupplierWithPredicate> fieldSetterSuppliers;
 	private final FieldSetterWithPredicate emptySetter;
 	private SoftReference<Map<String, List<FieldWithSetter>>> classSetters;
 
-	public ObjectRandomizer(long seed) {
-		this.seed = seed;
-		Random random = new Random(seed);
+	public ObjectFieldSetter() {
+		Random random = new Random(System.currentTimeMillis());
 		classSetters = new SoftReference<>(new HashMap<>());
 		emptySetter = new EmptySetter();
 		fieldSetterSuppliers = new LinkedList<>();
@@ -54,7 +45,7 @@ public class ObjectRandomizer implements Randomizer {
 	}
 
 	@Override
-	public <T> T generate(Class<T> clazz) {
+	public <T> T get(Class<T> clazz) {
 		T o = newInstance(clazz);
 		initialize(o);
 		return o;
@@ -105,7 +96,7 @@ public class ObjectRandomizer implements Randomizer {
 		try {
 			fieldSetter.set(o, field);
 		} catch(RuntimeException | IllegalAccessException e) {
-			throw new RandomizerException(String.format(
+			throw new ObjectFieldSetterException(String.format(
 					"Cannot set field %s of class %s", field.getName(), o.getClass().getName()), e.getCause());
 		}
 	}
@@ -137,7 +128,7 @@ public class ObjectRandomizer implements Randomizer {
 			constructor.setAccessible(true);
 			return constructor.newInstance();
 		} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-			throw new RandomizerException(String.format("Error calling constructor %s", constructor), e);
+			throw new ObjectFieldSetterException(String.format("Error calling constructor %s", constructor), e);
 		}
 	}
 
@@ -145,7 +136,7 @@ public class ObjectRandomizer implements Randomizer {
 		try {
 			return clazz.getDeclaredConstructor();
 		} catch (NoSuchMethodException e) {
-			throw new RandomizerException(String.format("Error getting default constructor of %s", clazz.getName()), e);
+			throw new ObjectFieldSetterException(String.format("Error getting default constructor of %s", clazz.getName()), e);
 		}
 	}
 }

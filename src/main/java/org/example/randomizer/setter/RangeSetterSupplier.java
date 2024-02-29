@@ -1,7 +1,7 @@
 package org.example.randomizer.setter;
 
 import lombok.AllArgsConstructor;
-import org.example.randomizer.RandomizerException;
+import org.example.randomizer.ObjectFieldSetterException;
 import org.example.randomizer.annotation.Range;
 
 import java.lang.reflect.Field;
@@ -52,7 +52,7 @@ public class RangeSetterSupplier implements FieldSetterSupplierWithPredicate {
 					return;
 				}
 			}
-			throw new RandomizerException(String.format(
+			throw new ObjectFieldSetterException(String.format(
 					"Cannot set age of type %s in class %s", fieldClass.getName(), field.getDeclaringClass().getName()));
 		}
 	}
