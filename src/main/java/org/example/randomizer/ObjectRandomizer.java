@@ -3,6 +3,7 @@ package org.example.randomizer;
 import lombok.Getter;
 import org.example.randomizer.setter.*;
 import org.example.randomizer.supplier.PrimitiveIntSupplier;
+import org.example.randomizer.supplier.RandomBooleanSupplier;
 import org.example.randomizer.supplier.WordSupplier;
 
 import java.lang.ref.SoftReference;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 public class ObjectRandomizer implements Randomizer {
@@ -26,15 +28,21 @@ public class ObjectRandomizer implements Randomizer {
 	public ObjectRandomizer(long seed) {
 		this.seed = seed;
 		Random random = new Random(seed);
-		classSetters = new SoftReference<>(new HashMap<String, List<FieldWithSetter>>());
+		classSetters = new SoftReference<>(new HashMap<>());
 		emptySetter = new EmptySetter();
 		fieldSetterSuppliers = new LinkedList<>();
 		fieldSetterSuppliers.add(new RangeSetterSupplier(random));
 		fieldSetterSuppliers.add(new AsciiStringSetterSupplier(random));
-		fieldSetterSuppliers.add(new StringSetter(new WordSupplier(random), f->f.getType().equals(String.class)));
-		fieldSetterSuppliers.add(new PrimitiveBooleanSetter(random));
+		fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+			f -> new ObjectSetter<>(new WordSupplier(random), Objects::isNull),
+				f -> f.getType().equals(String.class)));
+		fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+				f -> new PrimitiveBooleanSetter(new RandomBooleanSupplier(random)),
+				f-> f.getType().getName().equals("boolean"))
+		);
+
 		fieldSetterSuppliers.add(new PrimitiveCharSetter(random));
-		fieldSetterSuppliers.add(new PrimitiveIntSetter(new PrimitiveIntSupplier(random), f -> f.getType().equals("int")));
+		fieldSetterSuppliers.add(new PrimitiveIntSetter(new PrimitiveIntSupplier(random), f -> f.getType().getName().equals("int")));
 		fieldSetterSuppliers.add(new PrimitiveLongSetter(random));
 		fieldSetterSuppliers.add(new PrimitiveFloatSetter(random));
 		fieldSetterSuppliers.add(new PrimitiveDoubleSetter(random));

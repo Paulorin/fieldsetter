@@ -3,24 +3,22 @@ package org.example.randomizer.setter;
 import lombok.AllArgsConstructor;
 
 import java.lang.reflect.Field;
-import java.util.Random;
+import java.util.function.BooleanSupplier;
+import java.util.function.Predicate;
 
 @AllArgsConstructor
-public class PrimitiveBooleanSetter implements FieldSetterWithPredicate {
-	private final Random random;
+public class PrimitiveBooleanSetter implements FieldSetter {
+	private final BooleanSupplier supplier;
+	private final Predicate<Boolean> predicate;
 
-	@Override
-	public boolean test(Field field) {
-		Class<?> fieldClass = field.getType();
-		return fieldClass.getName().equals("boolean");
+	public PrimitiveBooleanSetter(BooleanSupplier supplier) {
+		this(supplier, b -> true );
 	}
 
 	@Override
 	public void set(Object o, Field field) throws IllegalArgumentException, IllegalAccessException {
-		boolean value = (boolean)field.get(o);
-		if(!value) {
-			boolean randomValue = random.nextBoolean();
-			field.setBoolean(o, randomValue);
+		if(predicate.test(field.getBoolean(o))) {
+			field.setBoolean(o, supplier.getAsBoolean());
 		}
 	}
 }
