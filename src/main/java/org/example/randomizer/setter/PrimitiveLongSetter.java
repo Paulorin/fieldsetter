@@ -3,24 +3,29 @@ package org.example.randomizer.setter;
 import lombok.AllArgsConstructor;
 
 import java.lang.reflect.Field;
-import java.util.Random;
+import java.util.function.LongPredicate;
+import java.util.function.LongSupplier;
 
 @AllArgsConstructor
-public class PrimitiveLongSetter implements FieldSetterWithPredicate {
-	private final Random random;
+public class PrimitiveLongSetter implements FieldSetter {
+	private final LongSupplier supplier;
+	private final LongPredicate predicate;
 
-	@Override
-	public boolean test(Field field) {
-		Class<?> fieldClass = field.getType();
-		return fieldClass.getName().equals("long");
+	/**
+	 * Creates new PrimitiveLongSetter of long field with specified long supplier and with predicate
+	 * always returning true. I.e. this setter will set value of target long field
+	 * in any case
+	 *
+	 * @param supplier supplier of long value
+	 */
+	public PrimitiveLongSetter(LongSupplier supplier) {
+		this(supplier, v -> v == 0);
 	}
 
 	@Override
 	public void set(Object o, Field field) throws IllegalArgumentException, IllegalAccessException {
-		if((long)field.get(o) == 0) {
-			long value = random.nextLong();
-			value = value != 0 ? value : value + 1;
-			field.setLong(o, random.nextBoolean() ? value : -value);
+		if(predicate.test(field.getLong(o))) {
+			field.setLong(o, supplier.getAsLong());
 		}
 	}
 }

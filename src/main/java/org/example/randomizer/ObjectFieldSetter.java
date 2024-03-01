@@ -3,6 +3,7 @@ package org.example.randomizer;
 import org.example.randomizer.setter.*;
 import org.example.randomizer.supplier.RandomPrimitiveIntSupplier;
 import org.example.randomizer.supplier.RandomBooleanSupplier;
+import org.example.randomizer.supplier.RandomPrimitiveLongSupplier;
 import org.example.randomizer.supplier.WordSupplier;
 
 import java.lang.ref.SoftReference;
@@ -35,7 +36,9 @@ public class ObjectFieldSetter implements ObjectInitializer {
 		fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
 				f -> new PrimitiveIntSetter(new RandomPrimitiveIntSupplier(random), v -> v == 0),
 				f -> f.getType().getName().equals("int")));
-		fieldSetterSuppliers.add(new PrimitiveLongSetter(random));
+		fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+				f-> new PrimitiveLongSetter(new RandomPrimitiveLongSupplier(random)),
+				f -> f.getType().getName().equals("long")));
 		fieldSetterSuppliers.add(new PrimitiveFloatSetter(random));
 		fieldSetterSuppliers.add(new PrimitiveDoubleSetter(random));
 		fieldSetterSuppliers.add(new BooleanSetter(random));
