@@ -15,7 +15,8 @@ import java.util.*;
 public class ObjectFieldSetter implements ObjectInitializer {
 
 	private final List<FieldSetterSupplierWithPredicate> fieldSetterSuppliers;
-	private final FieldSetterWithPredicate emptySetter;
+	private final FieldSetter emptySetter;
+
 	private SoftReference<Map<String, List<FieldWithSetter>>> classSetters;
 
 	public ObjectFieldSetter() {
@@ -45,7 +46,28 @@ public class ObjectFieldSetter implements ObjectInitializer {
 		fieldSetterSuppliers.add(new CharacterSetter(random));
 		fieldSetterSuppliers.add(new EnumSetter(random));
 		fieldSetterSuppliers.add(new IntegerSetter(new RandomPrimitiveIntSupplier(random), f->f.getType().equals(Integer.class)));
-		fieldSetterSuppliers.add(emptySetter);
+	}
+
+	/**
+	 * ObjectFieldSetter is capable to create objects of specified type and set object
+	 * fields to some default or random value.
+	 *
+	 * @param fieldSetterSuppliers is a collection with setters of separate fields. Each
+	 *                             setter responsible for setting of field of specific
+	 *                             type or field annotated by specific annotation. There
+	 *                             are a lot of examples of setters in com.example.randomizer.setter
+	 *                             package
+	 *
+	 * @param emptySetter is a last resort setter that is applied to a field of unknown or
+	 *                    unsupported type. It may do nothing then unknown field is just ignored.
+	 *                    It may print something to log or stdout for test purposes. Or it may
+	 *                    throw ObjectFieldSetterException. The default EmptySetter prints
+	 *                    message to stdout with information about field that where skipped.
+	 */
+	public ObjectFieldSetter(List<FieldSetterSupplierWithPredicate> fieldSetterSuppliers,
+							 FieldSetter emptySetter) {
+		this.fieldSetterSuppliers = fieldSetterSuppliers;
+		this.emptySetter = emptySetter;
 	}
 
 	@Override
