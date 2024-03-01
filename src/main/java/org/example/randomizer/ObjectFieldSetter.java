@@ -86,7 +86,7 @@ public class ObjectFieldSetter implements ObjectInitializer {
 	}
 
 	private List<FieldWithSetter> getFieldWithSetters(Object o) {
-		Map<String, List<FieldWithSetter>> fieldSettersByClassName = getFieldSettersByClassName();
+		Map<String, List<FieldWithSetter>> fieldSettersByClassName = getMapFromSoftReference();
 
 		List<FieldWithSetter> fieldWithSetters = fieldSettersByClassName.get(o.getClass().getName());
 		if(fieldWithSetters == null) {
@@ -96,7 +96,7 @@ public class ObjectFieldSetter implements ObjectInitializer {
 		return fieldWithSetters;
 	}
 
-	private Map<String, List<FieldWithSetter>> getFieldSettersByClassName() {
+	private Map<String, List<FieldWithSetter>> getMapFromSoftReference() {
 		Map<String, List<FieldWithSetter>> fieldSetterByClassName = classSetters.get();
 		if(fieldSetterByClassName == null) {
 			fieldSetterByClassName = new HashMap<>();
