@@ -1,7 +1,7 @@
 package org.example.randomizer;
 
 import org.example.randomizer.setter.*;
-import org.example.randomizer.supplier.PrimitiveIntSupplier;
+import org.example.randomizer.supplier.RandomPrimitiveIntSupplier;
 import org.example.randomizer.supplier.RandomBooleanSupplier;
 import org.example.randomizer.supplier.WordSupplier;
 
@@ -31,16 +31,17 @@ public class ObjectFieldSetter implements ObjectInitializer {
 				f -> new PrimitiveBooleanSetter(new RandomBooleanSupplier(random)),
 				f-> f.getType().getName().equals("boolean"))
 		);
-
 		fieldSetterSuppliers.add(new PrimitiveCharSetter(random));
-		fieldSetterSuppliers.add(new PrimitiveIntSetter(new PrimitiveIntSupplier(random), f -> f.getType().getName().equals("int")));
+		fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+				f -> new PrimitiveIntSetter(new RandomPrimitiveIntSupplier(random), v -> v == 0),
+				f -> f.getType().getName().equals("int")));
 		fieldSetterSuppliers.add(new PrimitiveLongSetter(random));
 		fieldSetterSuppliers.add(new PrimitiveFloatSetter(random));
 		fieldSetterSuppliers.add(new PrimitiveDoubleSetter(random));
 		fieldSetterSuppliers.add(new BooleanSetter(random));
 		fieldSetterSuppliers.add(new CharacterSetter(random));
 		fieldSetterSuppliers.add(new EnumSetter(random));
-		fieldSetterSuppliers.add(new IntegerSetter(new PrimitiveIntSupplier(random), f->f.getType().equals(Integer.class)));
+		fieldSetterSuppliers.add(new IntegerSetter(new RandomPrimitiveIntSupplier(random), f->f.getType().equals(Integer.class)));
 		fieldSetterSuppliers.add(emptySetter);
 	}
 
