@@ -4,7 +4,6 @@ import org.example.fieldsetter.setter.AsciiStringSetterSupplier;
 import org.example.fieldsetter.setter.EmptySetter;
 import org.example.fieldsetter.setter.FieldSetterSupplierWithPredicate;
 import org.example.fieldsetter.setter.GenericFieldSetterSupplierWithPredicate;
-import org.example.fieldsetter.setter.IntegerSetter;
 import org.example.fieldsetter.setter.ObjectSetter;
 import org.example.fieldsetter.setter.PrimitiveBooleanSetter;
 import org.example.fieldsetter.setter.PrimitiveCharSetter;
@@ -16,6 +15,7 @@ import org.example.fieldsetter.setter.RangeSetterSupplier;
 import org.example.fieldsetter.supplier.RandomBooleanSupplier;
 import org.example.fieldsetter.supplier.RandomCharacterSupplier;
 import org.example.fieldsetter.supplier.RandomEnumSupplier;
+import org.example.fieldsetter.supplier.RandomIntegerSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveBooleanSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveCharSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveIntSupplier;
@@ -36,7 +36,8 @@ public class TestUtil {
         fieldSetterSuppliers.add(new AsciiStringSetterSupplier(random));
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
                 f -> new ObjectSetter<>(new WordSupplier(random), Objects::isNull),
-                f -> f.getType().equals(String.class)));
+                f -> f.getType().equals(String.class))
+        );
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
                 f -> new PrimitiveBooleanSetter(new RandomPrimitiveBooleanSupplier(random)),
                 f -> f.getType().getName().equals("boolean"))
@@ -67,7 +68,10 @@ public class TestUtil {
                 f -> new ObjectSetter<>(new RandomEnumSupplier(random, f.getType().getEnumConstants()), Objects::isNull),
                 f -> f.getType().isEnum()
         ));
-        fieldSetterSuppliers.add(new IntegerSetter(new RandomPrimitiveIntSupplier(random), f->f.getType().equals(Integer.class)));
+        fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+                f -> new ObjectSetter<>(new RandomIntegerSupplier(random), Objects::isNull),
+                f -> f.getType().equals(Integer.class)
+        ));
         fieldSetterSuppliers.trimToSize();
 
         return new ObjectFieldSetter(fieldSetterSuppliers, new EmptySetter());

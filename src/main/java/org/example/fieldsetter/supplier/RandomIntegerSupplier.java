@@ -6,12 +6,11 @@ import java.util.Random;
 import java.util.function.Supplier;
 
 @AllArgsConstructor
-public class RandomEnumSupplier implements Supplier<Object> {
+public class RandomIntegerSupplier implements Supplier<Integer> {
     private final Random random;
-    private final Object[] enums;
 
     @Override
-    public Object get() {
-        return enums[random.nextInt(enums.length)];
+    public Integer get() {
+        return random.nextInt();
     }
 }
