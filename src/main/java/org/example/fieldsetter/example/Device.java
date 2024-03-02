@@ -7,4 +7,5 @@ public class Device {
 	private float weight;
 	private boolean digital;
 	private char code;
+	private byte flags;
 }

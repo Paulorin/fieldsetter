@@ -83,6 +83,7 @@ public class TestObjectFieldSetter {
 			assertThat(device).isNotNull();
 			assertThat(device.getWeight()).isNotCloseTo(0.0f, Offset.offset(0.00001f));
 			assertThat(device.getCode()).isNotEqualTo('\u0000');
+			assertThat(device.getFlags()).isNotEqualTo((byte)0);
 		}
 	}
 
