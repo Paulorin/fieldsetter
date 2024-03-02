@@ -1,9 +1,15 @@
 package org.example.fieldsetter;
 
 import org.assertj.core.data.Offset;
-import org.example.fieldsetter.example.*;
+import org.example.fieldsetter.example.Account;
+import org.example.fieldsetter.example.Book;
+import org.example.fieldsetter.example.Device;
+import org.example.fieldsetter.example.Elephant;
+import org.example.fieldsetter.example.Person;
+import org.example.fieldsetter.example.PersonData;
+import org.example.fieldsetter.example.Product;
+import org.example.fieldsetter.example.Rectangle;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,7 +40,7 @@ public class TestObjectFieldSetter {
 		}
 	}
 
-	@Disabled
+
 	@Test
 	public void shouldMakeRandomProduct() {
 		for(int i=0; i<10; i++) {

@@ -15,6 +15,7 @@ import org.example.fieldsetter.setter.PrimitiveIntSetter;
 import org.example.fieldsetter.setter.PrimitiveLongSetter;
 import org.example.fieldsetter.setter.RangeSetterSupplier;
 import org.example.fieldsetter.supplier.RandomBooleanSupplier;
+import org.example.fieldsetter.supplier.RandomCharacterSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveBooleanSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveCharSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveIntSupplier;
@@ -58,6 +59,10 @@ public class TestUtil {
                 f -> new PrimitiveCharSetter(new RandomPrimitiveCharSupplier(random), c -> c == '\u0000'),
                 f -> f.getType().getName().equals("char"))
         );
+        fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+                f -> new ObjectSetter<>(new RandomCharacterSupplier(random), Objects::isNull),
+                f -> f.getType().equals(Character.class)
+        ));
         fieldSetterSuppliers.add(new EnumSetter(random));
         fieldSetterSuppliers.add(new IntegerSetter(new RandomPrimitiveIntSupplier(random), f->f.getType().equals(Integer.class)));
         fieldSetterSuppliers.trimToSize();
