@@ -4,7 +4,6 @@ import org.example.fieldsetter.setter.AsciiStringSetterSupplier;
 import org.example.fieldsetter.setter.EmptySetter;
 import org.example.fieldsetter.setter.FieldSetterSupplierWithPredicate;
 import org.example.fieldsetter.setter.GenericFieldSetterSupplierWithPredicate;
-import org.example.fieldsetter.setter.IntegerSetter;
 import org.example.fieldsetter.setter.ObjectSetter;
 import org.example.fieldsetter.setter.PrimitiveBooleanSetter;
 import org.example.fieldsetter.setter.PrimitiveByteSetter;
@@ -16,6 +15,7 @@ import org.example.fieldsetter.setter.PrimitiveLongSetter;
 import org.example.fieldsetter.setter.RangeSetterSupplier;
 import org.example.fieldsetter.supplier.RandomBooleanSupplier;
 import org.example.fieldsetter.supplier.RandomByteSupplier;
+import org.example.fieldsetter.supplier.RandomPrimitiveByteSupplier;
 import org.example.fieldsetter.supplier.RandomCharacterSupplier;
 import org.example.fieldsetter.supplier.RandomEnumSupplier;
 import org.example.fieldsetter.supplier.RandomIntegerSupplier;
@@ -72,8 +72,12 @@ public class TestUtil {
                 f -> f.getType().isEnum()
         ));
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
-                f -> new PrimitiveByteSetter(new RandomByteSupplier(random), b -> b == 0),
+                f -> new PrimitiveByteSetter(new RandomPrimitiveByteSupplier(random), b -> b == 0),
                 f -> f.getType().getName().equals("byte")
+        ));
+        fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+                f -> new ObjectSetter<>(new RandomByteSupplier(random), Objects::isNull),
+                f -> f.getType().equals(Byte.class)
         ));
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
                 f -> new ObjectSetter<>(new RandomIntegerSupplier(random), Objects::isNull),

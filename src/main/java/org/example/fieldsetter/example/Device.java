@@ -8,4 +8,5 @@ public class Device {
 	private boolean digital;
 	private char code;
 	private byte flags;
+	private Byte optionalFlags;
 }
