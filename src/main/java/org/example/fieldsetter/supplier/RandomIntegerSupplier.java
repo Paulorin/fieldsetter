@@ -11,6 +11,8 @@ public class RandomIntegerSupplier implements Supplier<Integer> {
 
     @Override
     public Integer get() {
-        return random.nextInt();
+        int value = random.nextInt();
+        value = random.nextBoolean() ? value : - value - 1;
+        return value;
     }
 }

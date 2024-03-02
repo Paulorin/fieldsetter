@@ -21,6 +21,7 @@ import org.example.fieldsetter.supplier.RandomEnumSupplier;
 import org.example.fieldsetter.supplier.RandomIntegerSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveBooleanSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveCharSupplier;
+import org.example.fieldsetter.supplier.RandomPrimitiveDoubleSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveIntSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveLongSupplier;
 import org.example.fieldsetter.supplier.WordSupplier;
@@ -54,7 +55,10 @@ public class TestUtil {
                 f -> f.getType().getName().equals("long"))
         );
         fieldSetterSuppliers.add(new PrimitiveFloatSetter(random));
-        fieldSetterSuppliers.add(new PrimitiveDoubleSetter(random));
+        fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+                f -> new PrimitiveDoubleSetter(new RandomPrimitiveDoubleSupplier(random), v -> v == 0.0),
+                f -> f.getType().getName().equals("double")
+        ));
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
                 f -> new ObjectSetter<>(new RandomBooleanSupplier(random), Objects::isNull),
                 f -> f.getType().equals(Boolean.class))
