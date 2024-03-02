@@ -1,7 +1,6 @@
 package org.example.fieldsetter;
 
 import org.example.fieldsetter.setter.AsciiStringSetterSupplier;
-import org.example.fieldsetter.setter.CharacterSetter;
 import org.example.fieldsetter.setter.EmptySetter;
 import org.example.fieldsetter.setter.EnumSetter;
 import org.example.fieldsetter.setter.FieldSetterSupplierWithPredicate;
@@ -17,6 +16,7 @@ import org.example.fieldsetter.setter.PrimitiveLongSetter;
 import org.example.fieldsetter.setter.RangeSetterSupplier;
 import org.example.fieldsetter.supplier.RandomBooleanSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveBooleanSupplier;
+import org.example.fieldsetter.supplier.RandomPrimitiveCharSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveIntSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveLongSupplier;
 import org.example.fieldsetter.supplier.WordSupplier;
@@ -40,7 +40,6 @@ public class TestUtil {
                 f -> new PrimitiveBooleanSetter(new RandomPrimitiveBooleanSupplier(random)),
                 f -> f.getType().getName().equals("boolean"))
         );
-        fieldSetterSuppliers.add(new PrimitiveCharSetter(random));
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
                 f -> new PrimitiveIntSetter(new RandomPrimitiveIntSupplier(random), v -> v == 0),
                 f -> f.getType().getName().equals("int"))
@@ -55,7 +54,10 @@ public class TestUtil {
                 f -> new ObjectSetter<>(new RandomBooleanSupplier(random), Objects::isNull),
                 f -> f.getType().equals(Boolean.class))
         );
-        fieldSetterSuppliers.add(new CharacterSetter(random));
+        fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+                f -> new PrimitiveCharSetter(new RandomPrimitiveCharSupplier(random), c -> c == '\u0000'),
+                f -> f.getType().getName().equals("char"))
+        );
         fieldSetterSuppliers.add(new EnumSetter(random));
         fieldSetterSuppliers.add(new IntegerSetter(new RandomPrimitiveIntSupplier(random), f->f.getType().equals(Integer.class)));
         fieldSetterSuppliers.trimToSize();

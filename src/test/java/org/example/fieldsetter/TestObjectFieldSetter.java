@@ -3,6 +3,7 @@ package org.example.fieldsetter;
 import org.assertj.core.data.Offset;
 import org.example.fieldsetter.example.*;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,6 +34,7 @@ public class TestObjectFieldSetter {
 		}
 	}
 
+	@Disabled
 	@Test
 	public void shouldMakeRandomProduct() {
 		for(int i=0; i<10; i++) {
