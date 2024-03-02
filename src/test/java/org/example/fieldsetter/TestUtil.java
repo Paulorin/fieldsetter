@@ -12,6 +12,7 @@ import org.example.fieldsetter.setter.PrimitiveDoubleSetter;
 import org.example.fieldsetter.setter.PrimitiveFloatSetter;
 import org.example.fieldsetter.setter.PrimitiveIntSetter;
 import org.example.fieldsetter.setter.PrimitiveLongSetter;
+import org.example.fieldsetter.setter.PrimitiveShortSetter;
 import org.example.fieldsetter.setter.RangeSetterSupplier;
 import org.example.fieldsetter.supplier.RandomBooleanSupplier;
 import org.example.fieldsetter.supplier.RandomByteSupplier;
@@ -24,6 +25,8 @@ import org.example.fieldsetter.supplier.RandomPrimitiveCharSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveDoubleSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveIntSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveLongSupplier;
+import org.example.fieldsetter.supplier.RandomPrimitiveShortSupplier;
+import org.example.fieldsetter.supplier.ShortSupplier;
 import org.example.fieldsetter.supplier.WordSupplier;
 
 import java.util.ArrayList;
@@ -78,6 +81,14 @@ public class TestUtil {
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
                 f -> new PrimitiveByteSetter(new RandomPrimitiveByteSupplier(random), b -> b == 0),
                 f -> f.getType().getName().equals("byte")
+        ));
+        fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+                f -> new PrimitiveShortSetter(new RandomPrimitiveShortSupplier(random), s -> s == 0),
+                f -> f.getType().getName().equals("short")
+        ));
+        fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+                f -> new ObjectSetter<>(new ShortSupplier(random), Objects::isNull),
+                f-> f.getType().equals(Short.class)
         ));
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
                 f -> new ObjectSetter<>(new RandomByteSupplier(random), Objects::isNull),

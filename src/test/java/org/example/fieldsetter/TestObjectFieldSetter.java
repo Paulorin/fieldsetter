@@ -106,6 +106,8 @@ public class TestObjectFieldSetter {
 			 assertThat(book.getAuthor()).isNotNull();
 			 assertThat(book.getAuthor().length()).isGreaterThan(9);
 			 assertThat(book.getAuthor().length()).isLessThan(51);
+			 assertThat(book.getPages()).isNotEqualTo(0);
+			 assertThat(book.getIllustrations()).isNotNull();
 		 }
 	 }
 
