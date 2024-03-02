@@ -6,4 +6,5 @@ import lombok.Data;
 public class Rectangle {
 	private double height;
 	private double width;
+	private Boolean hidden;
 }

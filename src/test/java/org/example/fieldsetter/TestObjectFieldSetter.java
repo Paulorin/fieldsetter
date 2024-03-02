@@ -13,7 +13,7 @@ public class TestObjectFieldSetter {
 
 	@BeforeEach
 	public void beforeEach() {
-		fieldSetter = new ObjectFieldSetter();
+		fieldSetter = TestUtil.getObjectFieldSetter();
 	}
 
 	@Test
@@ -64,6 +64,7 @@ public class TestObjectFieldSetter {
 			assertThat(rectangle).isNotNull();
 			assertThat(rectangle.getHeight()).isNotCloseTo(0, Offset.offset(0.00001));
 			assertThat(rectangle.getWidth()).isNotCloseTo(0, Offset.offset(0.00001));
+			assertThat(rectangle.getHidden()).isNotNull();
 		}
 	}
 

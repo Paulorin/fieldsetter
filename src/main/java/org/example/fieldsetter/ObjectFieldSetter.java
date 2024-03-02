@@ -1,16 +1,18 @@
 package org.example.fieldsetter;
 
-import org.example.fieldsetter.setter.*;
-import org.example.fieldsetter.supplier.RandomPrimitiveIntSupplier;
-import org.example.fieldsetter.supplier.RandomBooleanSupplier;
-import org.example.fieldsetter.supplier.RandomPrimitiveLongSupplier;
-import org.example.fieldsetter.supplier.WordSupplier;
+import org.example.fieldsetter.setter.FieldSetter;
+import org.example.fieldsetter.setter.FieldSetterSupplierWithPredicate;
+import org.example.fieldsetter.setter.FieldWithSetter;
 
 import java.lang.ref.SoftReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class ObjectFieldSetter implements ObjectInitializer {
 
@@ -19,35 +21,6 @@ public class ObjectFieldSetter implements ObjectInitializer {
 
 	private SoftReference<Map<String, List<FieldWithSetter>>> classSetters;
 
-	public ObjectFieldSetter() {
-		Random random = new Random(System.currentTimeMillis());
-		classSetters = new SoftReference<>(new HashMap<>());
-		emptySetter = new EmptySetter();
-		fieldSetterSuppliers = new LinkedList<>();
-		fieldSetterSuppliers.add(new RangeSetterSupplier(random));
-		fieldSetterSuppliers.add(new AsciiStringSetterSupplier(random));
-		fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
-			f -> new ObjectSetter<>(new WordSupplier(random), Objects::isNull),
-				f -> f.getType().equals(String.class)));
-		fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
-				f -> new PrimitiveBooleanSetter(new RandomBooleanSupplier(random)),
-				f-> f.getType().getName().equals("boolean"))
-		);
-		fieldSetterSuppliers.add(new PrimitiveCharSetter(random));
-		fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
-				f -> new PrimitiveIntSetter(new RandomPrimitiveIntSupplier(random), v -> v == 0),
-				f -> f.getType().getName().equals("int")));
-		fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
-				f-> new PrimitiveLongSetter(new RandomPrimitiveLongSupplier(random)),
-				f -> f.getType().getName().equals("long")));
-		fieldSetterSuppliers.add(new PrimitiveFloatSetter(random));
-		fieldSetterSuppliers.add(new PrimitiveDoubleSetter(random));
-		fieldSetterSuppliers.add(new BooleanSetter(random));
-		fieldSetterSuppliers.add(new CharacterSetter(random));
-		fieldSetterSuppliers.add(new EnumSetter(random));
-		fieldSetterSuppliers.add(new IntegerSetter(new RandomPrimitiveIntSupplier(random), f->f.getType().equals(Integer.class)));
-	}
-
 	/**
 	 * ObjectFieldSetter is capable to create objects of specified type and set object
 	 * fields to some default or random value.
@@ -55,7 +28,7 @@ public class ObjectFieldSetter implements ObjectInitializer {
 	 * @param fieldSetterSuppliers is a collection with setters of separate fields. Each
 	 *                             setter responsible for setting of field of specific
 	 *                             type or field annotated by specific annotation. There
-	 *                             are a lot of examples of setters in com.example.randomizer.setter
+	 *                             are a lot of examples of setters in com.example.fieldsetter.setter
 	 *                             package
 	 *
 	 * @param emptySetter is a last resort setter that is applied to a field of unknown or
@@ -68,6 +41,7 @@ public class ObjectFieldSetter implements ObjectInitializer {
 							 FieldSetter emptySetter) {
 		this.fieldSetterSuppliers = fieldSetterSuppliers;
 		this.emptySetter = emptySetter;
+		classSetters = new SoftReference<>(new HashMap<>());
 	}
 
 	@Override
