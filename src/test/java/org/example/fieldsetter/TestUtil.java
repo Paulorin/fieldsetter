@@ -2,7 +2,6 @@ package org.example.fieldsetter;
 
 import org.example.fieldsetter.setter.AsciiStringSetterSupplier;
 import org.example.fieldsetter.setter.EmptySetter;
-import org.example.fieldsetter.setter.EnumSetter;
 import org.example.fieldsetter.setter.FieldSetterSupplierWithPredicate;
 import org.example.fieldsetter.setter.GenericFieldSetterSupplierWithPredicate;
 import org.example.fieldsetter.setter.IntegerSetter;
@@ -16,6 +15,7 @@ import org.example.fieldsetter.setter.PrimitiveLongSetter;
 import org.example.fieldsetter.setter.RangeSetterSupplier;
 import org.example.fieldsetter.supplier.RandomBooleanSupplier;
 import org.example.fieldsetter.supplier.RandomCharacterSupplier;
+import org.example.fieldsetter.supplier.RandomEnumSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveBooleanSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveCharSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveIntSupplier;
@@ -63,7 +63,10 @@ public class TestUtil {
                 f -> new ObjectSetter<>(new RandomCharacterSupplier(random), Objects::isNull),
                 f -> f.getType().equals(Character.class)
         ));
-        fieldSetterSuppliers.add(new EnumSetter(random));
+        fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+                f -> new ObjectSetter<>(new RandomEnumSupplier(random, f.getType().getEnumConstants()), Objects::isNull),
+                f -> f.getType().isEnum()
+        ));
         fieldSetterSuppliers.add(new IntegerSetter(new RandomPrimitiveIntSupplier(random), f->f.getType().equals(Integer.class)));
         fieldSetterSuppliers.trimToSize();
 
