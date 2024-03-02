@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 @AllArgsConstructor
 public class RandomCharacterSupplier implements Supplier<Character> {
     private final Random random;
+
     private final static String DEFAULT_ALPHABET = " \tabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     @Override
     public Character get() {

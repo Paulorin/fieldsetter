@@ -18,6 +18,7 @@ import org.example.fieldsetter.supplier.RandomBooleanSupplier;
 import org.example.fieldsetter.supplier.RandomByteSupplier;
 import org.example.fieldsetter.supplier.RandomCharacterSupplier;
 import org.example.fieldsetter.supplier.RandomEnumSupplier;
+import org.example.fieldsetter.supplier.RandomIntegerSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveBooleanSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveCharSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveIntSupplier;
@@ -38,7 +39,8 @@ public class TestUtil {
         fieldSetterSuppliers.add(new AsciiStringSetterSupplier(random));
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
                 f -> new ObjectSetter<>(new WordSupplier(random), Objects::isNull),
-                f -> f.getType().equals(String.class)));
+                f -> f.getType().equals(String.class))
+        );
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
                 f -> new PrimitiveBooleanSetter(new RandomPrimitiveBooleanSupplier(random)),
                 f -> f.getType().getName().equals("boolean"))
@@ -73,7 +75,10 @@ public class TestUtil {
                 f -> new PrimitiveByteSetter(new RandomByteSupplier(random), b -> b == 0),
                 f -> f.getType().getName().equals("byte")
         ));
-        fieldSetterSuppliers.add(new IntegerSetter(new RandomPrimitiveIntSupplier(random), f->f.getType().equals(Integer.class)));
+        fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+                f -> new ObjectSetter<>(new RandomIntegerSupplier(random), Objects::isNull),
+                f -> f.getType().equals(Integer.class)
+        ));
         fieldSetterSuppliers.trimToSize();
 
         return new ObjectFieldSetter(fieldSetterSuppliers, new EmptySetter());
