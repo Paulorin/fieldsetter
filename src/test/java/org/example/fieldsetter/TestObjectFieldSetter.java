@@ -3,6 +3,7 @@ package org.example.fieldsetter;
 import org.assertj.core.data.Offset;
 import org.example.fieldsetter.example.Account;
 import org.example.fieldsetter.example.Book;
+import org.example.fieldsetter.example.Buffer;
 import org.example.fieldsetter.example.Device;
 import org.example.fieldsetter.example.Elephant;
 import org.example.fieldsetter.example.Person;
@@ -76,6 +77,7 @@ public class TestObjectFieldSetter {
 			assertThat(rectangle.getHeight()).isNotCloseTo(0, Offset.offset(0.00001));
 			assertThat(rectangle.getWidth()).isNotCloseTo(0, Offset.offset(0.00001));
 			assertThat(rectangle.getHidden()).isNotNull();
+			assertThat(rectangle.getSides()).isNotNull();
 		}
 	}
 
@@ -88,6 +90,8 @@ public class TestObjectFieldSetter {
 			assertThat(device.getCode()).isNotEqualTo('\u0000');
 			assertThat(device.getFlags()).isNotEqualTo((byte)0);
 			assertThat(device.getOptionalFlags()).isNotNull();
+			assertThat(device.getInitializers()).isNotNull();
+			System.out.println(device);
 		}
 	}
 
@@ -98,6 +102,8 @@ public class TestObjectFieldSetter {
 			assertThat(personData).isNotNull();
 			assertThat(personData.getAge()).isGreaterThan(0);
 			assertThat(personData.getAge()).isLessThan(4);
+			assertThat(personData.getInitials()).isNotNull();
+			System.out.println(personData);
 		}
 	}
 
@@ -111,6 +117,8 @@ public class TestObjectFieldSetter {
 			 assertThat(book.getAuthor().length()).isLessThan(51);
 			 assertThat(book.getPages()).isNotEqualTo(0);
 			 assertThat(book.getIllustrations()).isNotNull();
+			 assertThat(book.getShorts()).isNotNull();
+			 System.out.println(book);
 		 }
 	 }
 
@@ -122,6 +130,20 @@ public class TestObjectFieldSetter {
 			assertThat(elephant.getWeight()).isNotNull();
 			assertThat(elephant.getWeight()).isNotEqualTo(0);
 			System.out.println(elephant);
+		}
+	 }
+
+	 @Test
+	 public void shouldMakeRandomBuffer() {
+		for(int i = 0; i < 10; i++) {
+			Buffer buffer = fieldSetter.get(Buffer.class);
+			assertThat(buffer).isNotNull();
+			assertThat(buffer.getLongs()).isNotNull();
+			assertThat(buffer.getFloats()).isNotNull();
+			assertThat(buffer.getDoubles()).isNotNull();
+			assertThat(buffer.getStrings()).isNotNull();
+			assertThat(buffer.getOptions()).isNotNull();
+			System.out.println(buffer);
 		}
 	 }
 }

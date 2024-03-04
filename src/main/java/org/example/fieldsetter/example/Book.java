@@ -9,4 +9,5 @@ public class Book {
     private String author;
     private short pages;
     private Short illustrations;
+    private Short[] shorts;
 }

@@ -9,4 +9,5 @@ public class Device {
 	private char code;
 	private byte flags;
 	private Byte optionalFlags;
+	private Byte[] initializers;
 }

@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.function.Supplier;
 
 @AllArgsConstructor
-public class WordSupplier implements Supplier<String> {
+public class RandomStringSupplier implements Supplier<String> {
     private final Random random;
     private static final String[] RANDOM_WORDS;
 

@@ -7,4 +7,5 @@ import org.example.fieldsetter.annotation.Range;
 public class PersonData {
 	@Range(from=1, to=3)
 	private int age;
+	Character[] initials;
 }
