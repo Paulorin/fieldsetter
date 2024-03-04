@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.function.Supplier;
 
 @AllArgsConstructor
-public class ShortSupplier implements Supplier<Short> {
+public class RandomShortSupplier implements Supplier<Short> {
 	private final Random random;
 	@Override
 	public Short get() {

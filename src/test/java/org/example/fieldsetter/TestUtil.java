@@ -27,7 +27,7 @@ import org.example.fieldsetter.supplier.RandomPrimitiveFloatSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveIntSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveLongSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveShortSupplier;
-import org.example.fieldsetter.supplier.ShortSupplier;
+import org.example.fieldsetter.supplier.RandomShortSupplier;
 import org.example.fieldsetter.supplier.WordSupplier;
 
 import java.util.ArrayList;
@@ -91,7 +91,7 @@ public class TestUtil {
                 f -> f.getType().getName().equals("short")
         ));
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
-                f -> new ObjectSetter<>(new ShortSupplier(random), Objects::isNull),
+                f -> new ObjectSetter<>(new RandomShortSupplier(random), Objects::isNull),
                 f-> f.getType().equals(Short.class)
         ));
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
