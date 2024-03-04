@@ -112,7 +112,7 @@ public class TestObjectFieldSetter {
 	 }
 
 	 @Test
-	 public void test() {
+	 public void shouldMakeRandomElephant() {
 		for(int i=0; i<10; i++) {
 			Elephant elephant = fieldSetter.get(Elephant.class);
 			assertThat(elephant).isNotNull();
