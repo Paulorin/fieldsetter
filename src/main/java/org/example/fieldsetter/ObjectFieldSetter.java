@@ -1,8 +1,8 @@
 package org.example.fieldsetter;
 
+import lombok.Data;
 import org.example.fieldsetter.setter.FieldSetter;
 import org.example.fieldsetter.setter.FieldSetterSupplierWithPredicate;
-import org.example.fieldsetter.setter.FieldWithSetter;
 
 import java.lang.ref.SoftReference;
 import java.lang.reflect.Constructor;
@@ -138,5 +138,11 @@ public class ObjectFieldSetter implements ObjectInitializer {
 		} catch (NoSuchMethodException e) {
 			throw new ObjectFieldSetterException(String.format("Error getting default constructor of %s", clazz.getName()), e);
 		}
+	}
+
+	@Data
+	public static class FieldWithSetter {
+		private final Field field;
+		private final FieldSetter fieldSetter;
 	}
 }
