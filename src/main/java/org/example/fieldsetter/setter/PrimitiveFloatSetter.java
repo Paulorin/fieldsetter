@@ -1,29 +1,23 @@
 package org.example.fieldsetter.setter;
 
 import lombok.AllArgsConstructor;
+import org.example.fieldsetter.function.FloatPredicate;
+import org.example.fieldsetter.function.FloatSupplier;
 
 import java.lang.reflect.Field;
-import java.util.Random;
 
 @AllArgsConstructor
-public class PrimitiveFloatSetter implements FieldSetterWithPredicate {
-	private final static float MIN_ZERO_OFFSET = 0.00001f;
-	private final static float MAX_VALUE = 1000.0f;
-	private final Random random;
+public class PrimitiveFloatSetter implements FieldSetter {
+	private final FloatSupplier floatSupplier;
+	private final FloatPredicate floatPredicate;
 
-	@Override
-	public boolean test(Field field) {
-		Class<?> fieldClass = field.getType();
-		return fieldClass.getName().equals("float");
-	}
 
 	@Override
 	public void set(Object o, Field field) throws IllegalArgumentException, IllegalAccessException {
-		float value = random.nextFloat() * MAX_VALUE;
-		value = random.nextBoolean() ? value : -value;
-		if(value - 0.0f < 0.00001f) {
-			value += 0.00001f;
+		float value = field.getFloat(o);
+
+		if(floatPredicate.test(value)) {
+			field.setFloat(o, floatSupplier.getAsFloat());
 		}
-		field.setFloat(o, value);
 	}
 }
