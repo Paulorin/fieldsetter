@@ -16,6 +16,9 @@ import org.example.fieldsetter.setter.PrimitiveShortSetter;
 import org.example.fieldsetter.setter.RangeSetterSupplier;
 import org.example.fieldsetter.supplier.RandomBooleanSupplier;
 import org.example.fieldsetter.supplier.RandomByteSupplier;
+import org.example.fieldsetter.supplier.RandomDoubleSupplier;
+import org.example.fieldsetter.supplier.RandomFloatSupplier;
+import org.example.fieldsetter.supplier.RandomLongSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveByteSupplier;
 import org.example.fieldsetter.supplier.RandomCharacterSupplier;
 import org.example.fieldsetter.supplier.RandomEnumSupplier;
@@ -102,6 +105,19 @@ public class TestUtil {
                 f -> new ObjectSetter<>(new RandomIntegerSupplier(random), Objects::isNull),
                 f -> f.getType().equals(Integer.class)
         ));
+        fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+                f -> new ObjectSetter<>(new RandomLongSupplier(random), Objects::isNull),
+                f -> f.getType().equals(Long.class)
+        ));
+        fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+                f -> new ObjectSetter<>(new RandomFloatSupplier(random), Objects::isNull),
+                f -> f.getType().equals(Float.class)
+        ));
+        fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+                f -> new ObjectSetter<>(new RandomDoubleSupplier(random), Objects::isNull),
+                f -> f.getType().equals(Double.class)
+        ));
+
         fieldSetterSuppliers.trimToSize();
 
         return new ObjectFieldSetter(fieldSetterSuppliers, new EmptySetter());

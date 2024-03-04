@@ -49,6 +49,9 @@ public class TestObjectFieldSetter {
 			assertThat(product.getId()).isNotEqualTo(0);
 			assertThat(product.getName()).isNotBlank();
 			assertThat(product.getElectricClass()).isNotNull();
+			assertThat(product.getWeight()).isNotNull();
+			assertThat(product.getLength()).isNotNull();
+			assertThat(product.getOptionalParameter()).isNotNull();
 			System.out.println(product);
 		}
 	}
