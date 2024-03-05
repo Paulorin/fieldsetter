@@ -56,36 +56,36 @@ public class TestUtil {
         fieldSetterSuppliers.add(new AsciiStringSetterSupplier(random));
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
                 f -> new ObjectSetter<>(new RandomStringSupplier(random), Objects::isNull),
-                f -> f.getType().equals(String.class))
-        );
+                f -> f.getType().equals(String.class)
+        ));
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
                 f -> new PrimitiveBooleanSetter(new RandomPrimitiveBooleanSupplier(random)),
-                f -> f.getType().getName().equals("boolean"))
-        );
+                f -> f.getType().equals(boolean.class)
+        ));
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
                 f -> new PrimitiveIntSetter(new RandomPrimitiveIntSupplier(random), v -> v == 0),
-                f -> f.getType().getName().equals("int"))
-        );
+                f -> f.getType().equals(int.class)
+        ));
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
                 f -> new PrimitiveLongSetter(new RandomPrimitiveLongSupplier(random)),
-                f -> f.getType().getName().equals("long"))
-        );
+                f -> f.getType().equals(long.class)
+        ));
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
             f -> new PrimitiveFloatSetter(new RandomPrimitiveFloatSupplier(random), v -> v == 0.0),
-            f -> f.getType().getName().equals("float"))
-        );
+            f -> f.getType().equals(float.class)
+        ));
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
                 f -> new PrimitiveDoubleSetter(new RandomPrimitiveDoubleSupplier(random), v -> v == 0.0),
-                f -> f.getType().getName().equals("double")
+                f -> f.getType().equals(double.class)
         ));
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
                 f -> new ObjectSetter<>(new RandomBooleanSupplier(random), Objects::isNull),
-                f -> f.getType().equals(Boolean.class))
-        );
+                f -> f.getType().equals(Boolean.class)
+        ));
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
                 f -> new PrimitiveCharSetter(new RandomPrimitiveCharSupplier(random), c -> c == '\u0000'),
-                f -> f.getType().getName().equals("char"))
-        );
+                f -> f.getType().equals(char.class)
+        ));
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
                 f -> new ObjectSetter<>(new RandomCharacterSupplier(random), Objects::isNull),
                 f -> f.getType().equals(Character.class)
@@ -96,11 +96,11 @@ public class TestUtil {
         ));
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
                 f -> new PrimitiveByteSetter(new RandomPrimitiveByteSupplier(random), b -> b == 0),
-                f -> f.getType().getName().equals("byte")
+                f -> f.getType().equals(byte.class)
         ));
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
                 f -> new PrimitiveShortSetter(new RandomPrimitiveShortSupplier(random), s -> s == 0),
-                f -> f.getType().getName().equals("short")
+                f -> f.getType().equals(short.class)
         ));
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
                 f -> new ObjectSetter<>(new RandomShortSupplier(random), Objects::isNull),
