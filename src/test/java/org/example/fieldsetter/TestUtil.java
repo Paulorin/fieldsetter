@@ -15,6 +15,13 @@ import org.example.fieldsetter.setter.PrimitiveLongSetter;
 import org.example.fieldsetter.setter.PrimitiveShortSetter;
 import org.example.fieldsetter.setter.RangeSetterSupplier;
 import org.example.fieldsetter.supplier.ArraySupplier;
+import org.example.fieldsetter.supplier.BooleanArraySupplier;
+import org.example.fieldsetter.supplier.ByteArraySupplier;
+import org.example.fieldsetter.supplier.CharArraySupplier;
+import org.example.fieldsetter.supplier.DoubleArraySupplier;
+import org.example.fieldsetter.supplier.FloatArraySupplier;
+import org.example.fieldsetter.supplier.IntArraySupplier;
+import org.example.fieldsetter.supplier.LongArraySupplier;
 import org.example.fieldsetter.supplier.RandomBooleanSupplier;
 import org.example.fieldsetter.supplier.RandomByteSupplier;
 import org.example.fieldsetter.supplier.RandomDoubleSupplier;
@@ -33,6 +40,7 @@ import org.example.fieldsetter.supplier.RandomPrimitiveLongSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveShortSupplier;
 import org.example.fieldsetter.supplier.RandomShortSupplier;
 import org.example.fieldsetter.supplier.RandomStringSupplier;
+import org.example.fieldsetter.supplier.ShortArraySupplier;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -154,7 +162,38 @@ public class TestUtil {
                 f -> new ObjectSetter<>(new ArraySupplier<>(new RandomEnumSupplier(random, f.getType().getComponentType().getEnumConstants()), f.getType().getComponentType(), 2), Objects::isNull),
                 f -> f.getType().isArray() && f.getType().getComponentType().isEnum()
         ));
-
+        fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+                f -> new ObjectSetter<>( new BooleanArraySupplier(new RandomPrimitiveBooleanSupplier(random), 2), Objects::isNull),
+                f -> f.getType().isArray() && f.getType().getComponentType().equals(boolean.class)
+        ));
+        fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+                f -> new ObjectSetter<>( new ByteArraySupplier(new RandomPrimitiveByteSupplier(random), 2), Objects::isNull),
+                f -> f.getType().isArray() && f.getType().getComponentType().equals(byte.class)
+        ));
+        fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+                f -> new ObjectSetter<>( new ShortArraySupplier(new RandomPrimitiveShortSupplier(random), 2), Objects::isNull),
+                f -> f.getType().isArray() && f.getType().getComponentType().equals(short.class)
+        ));
+        fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+                f -> new ObjectSetter<>( new CharArraySupplier(new RandomPrimitiveCharSupplier(random), 2), Objects::isNull),
+                f -> f.getType().isArray() && f.getType().getComponentType().equals(char.class)
+        ));
+        fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+                f -> new ObjectSetter<>( new IntArraySupplier(new RandomPrimitiveIntSupplier(random), 2), Objects::isNull),
+                f -> f.getType().isArray() && f.getType().getComponentType().equals(int.class)
+        ));
+        fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+                f -> new ObjectSetter<>( new LongArraySupplier(new RandomPrimitiveLongSupplier(random), 2), Objects::isNull),
+                f -> f.getType().isArray() && f.getType().getComponentType().equals(long.class)
+        ));
+        fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+                f -> new ObjectSetter<>( new FloatArraySupplier(new RandomPrimitiveFloatSupplier(random), 2), Objects::isNull),
+                f -> f.getType().isArray() && f.getType().getComponentType().equals(float.class)
+        ));
+        fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
+                f -> new ObjectSetter<>( new DoubleArraySupplier(new RandomPrimitiveDoubleSupplier(random), 2), Objects::isNull),
+                f -> f.getType().isArray() && f.getType().getComponentType().equals(double.class)
+        ));
         fieldSetterSuppliers.trimToSize();
 
         return new ObjectFieldSetter(fieldSetterSuppliers, new EmptySetter());

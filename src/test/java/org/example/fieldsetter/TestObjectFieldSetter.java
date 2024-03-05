@@ -8,6 +8,7 @@ import org.example.fieldsetter.example.Device;
 import org.example.fieldsetter.example.Elephant;
 import org.example.fieldsetter.example.Person;
 import org.example.fieldsetter.example.PersonData;
+import org.example.fieldsetter.example.PrimitiveBuffer;
 import org.example.fieldsetter.example.Product;
 import org.example.fieldsetter.example.Rectangle;
 import org.junit.jupiter.api.BeforeEach;
@@ -143,6 +144,22 @@ public class TestObjectFieldSetter {
 			assertThat(buffer.getDoubles()).isNotNull();
 			assertThat(buffer.getStrings()).isNotNull();
 			assertThat(buffer.getOptions()).isNotNull();
+			System.out.println(buffer);
+		}
+	 }
+
+	 @Test
+	 public void shouldMakeRandomPrimitiveBuffer() {
+		for(int i=0; i<10; i++) {
+			PrimitiveBuffer  buffer = fieldSetter.get(PrimitiveBuffer.class);
+			assertThat(buffer.getBooleans()).isNotNull();
+			assertThat(buffer.getBytes()).isNotNull();
+			assertThat(buffer.getChars()).isNotNull();
+			assertThat(buffer.getShorts()).isNotNull();
+			assertThat(buffer.getInts()).isNotNull();
+			assertThat(buffer.getLongs()).isNotNull();
+			assertThat(buffer.getFloats()).isNotNull();
+			assertThat(buffer.getDoubles()).isNotNull();
 			System.out.println(buffer);
 		}
 	 }
