@@ -67,7 +67,7 @@ public class TestUtil {
                 f -> f.getType().equals(int.class)
         ));
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
-                f -> new PrimitiveLongSetter(new RandomPrimitiveLongSupplier(random)),
+                f -> new PrimitiveLongSetter(new RandomPrimitiveLongSupplier(random), v -> v ==0L),
                 f -> f.getType().equals(long.class)
         ));
         fieldSetterSuppliers.add(new GenericFieldSetterSupplierWithPredicate(
