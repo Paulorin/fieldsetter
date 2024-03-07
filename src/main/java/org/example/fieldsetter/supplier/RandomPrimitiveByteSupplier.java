@@ -1,15 +1,30 @@
 package org.example.fieldsetter.supplier;
 
-import lombok.AllArgsConstructor;
 import org.example.fieldsetter.function.ByteSupplier;
 
 import java.util.Random;
 
-@AllArgsConstructor
 public class RandomPrimitiveByteSupplier implements ByteSupplier {
 	private final Random random;
+	private final ByteSupplier supplier;
+
+	public RandomPrimitiveByteSupplier(Random random, byte from, byte to) {
+		this.random = random;
+		if(from >= 0 && to > 0 || from < 0 && to <= 0) {
+			supplier = () -> (byte)(this.random.nextInt(to - from + 1) + from);
+		} else if(from < 0) {
+			supplier = () -> (byte)(this.random.nextInt(to+1) - this.random.nextInt(1-from));
+		} else {
+			throw new IllegalArgumentException(String.format("to=%d has to be greater then from=%d", from, to));
+		}
+	}
+
+	public RandomPrimitiveByteSupplier(Random random) {
+		this(random, Byte.MIN_VALUE, Byte.MAX_VALUE);
+	}
+
 	@Override
 	public byte getAsByte() {
-		return (byte) (random.nextInt(0x100) + Byte.MIN_VALUE);
+		return supplier.getAsByte();
 	}
 }

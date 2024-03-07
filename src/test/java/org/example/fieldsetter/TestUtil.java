@@ -24,14 +24,14 @@ import org.example.fieldsetter.supplier.IntArraySupplier;
 import org.example.fieldsetter.supplier.LongArraySupplier;
 import org.example.fieldsetter.supplier.RandomBooleanSupplier;
 import org.example.fieldsetter.supplier.RandomByteSupplier;
-import org.example.fieldsetter.supplier.RandomDoubleSupplier;
-import org.example.fieldsetter.supplier.RandomFloatSupplier;
-import org.example.fieldsetter.supplier.RandomLongSupplier;
-import org.example.fieldsetter.supplier.RandomPrimitiveByteSupplier;
 import org.example.fieldsetter.supplier.RandomCharacterSupplier;
+import org.example.fieldsetter.supplier.RandomDoubleSupplier;
 import org.example.fieldsetter.supplier.RandomEnumSupplier;
+import org.example.fieldsetter.supplier.RandomFloatSupplier;
 import org.example.fieldsetter.supplier.RandomIntegerSupplier;
+import org.example.fieldsetter.supplier.RandomLongSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveBooleanSupplier;
+import org.example.fieldsetter.supplier.RandomPrimitiveByteSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveCharSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveDoubleSupplier;
 import org.example.fieldsetter.supplier.RandomPrimitiveFloatSupplier;
@@ -44,11 +44,11 @@ import org.example.fieldsetter.supplier.ShortArraySupplier;
 
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class TestUtil {
     public static ObjectFieldSetter getObjectFieldSetter(){
-        Random random = new Random(System.currentTimeMillis());
+        ThreadLocalRandom random = ThreadLocalRandom.current();
 
         ArrayList<FieldSetterSupplierWithPredicate> fieldSetterSuppliers = new ArrayList<>();
 

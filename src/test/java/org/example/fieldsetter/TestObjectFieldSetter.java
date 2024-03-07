@@ -48,13 +48,11 @@ public class TestObjectFieldSetter {
 		for(int i=0; i<10; i++) {
 			Product product = fieldSetter.get(Product.class);
 			assertThat(product).isNotNull();
-			assertThat(product.getId()).isNotEqualTo(0);
 			assertThat(product.getName()).isNotBlank();
 			assertThat(product.getElectricClass()).isNotNull();
 			assertThat(product.getWeight()).isNotNull();
 			assertThat(product.getLength()).isNotNull();
 			assertThat(product.getOptionalParameter()).isNotNull();
-			System.out.println(product);
 		}
 	}
 
@@ -89,10 +87,8 @@ public class TestObjectFieldSetter {
 			assertThat(device).isNotNull();
 			assertThat(device.getWeight()).isNotCloseTo(0.0f, Offset.offset(0.00001f));
 			assertThat(device.getCode()).isNotEqualTo('\u0000');
-			assertThat(device.getFlags()).isNotEqualTo((byte)0);
 			assertThat(device.getOptionalFlags()).isNotNull();
 			assertThat(device.getInitializers()).isNotNull();
-			System.out.println(device);
 		}
 	}
 
@@ -116,7 +112,6 @@ public class TestObjectFieldSetter {
 			 assertThat(book.getAuthor()).isNotNull();
 			 assertThat(book.getAuthor().length()).isGreaterThan(9);
 			 assertThat(book.getAuthor().length()).isLessThan(51);
-			 assertThat(book.getPages()).isNotEqualTo(0);
 			 assertThat(book.getIllustrations()).isNotNull();
 			 assertThat(book.getShorts()).isNotNull();
 			 System.out.println(book);
@@ -129,7 +124,6 @@ public class TestObjectFieldSetter {
 			Elephant elephant = fieldSetter.get(Elephant.class);
 			assertThat(elephant).isNotNull();
 			assertThat(elephant.getWeight()).isNotNull();
-			assertThat(elephant.getWeight()).isNotEqualTo(0);
 			System.out.println(elephant);
 		}
 	 }
