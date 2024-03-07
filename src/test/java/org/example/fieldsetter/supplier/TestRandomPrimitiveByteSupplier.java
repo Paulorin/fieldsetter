@@ -93,7 +93,7 @@ public class TestRandomPrimitiveByteSupplier {
 			}
 		}
 		Assertions.assertThat(minValue).isEqualTo((byte)0);
-		Assertions.assertThat(maxValue).isEqualTo((byte)Byte.MAX_VALUE);
+		Assertions.assertThat(maxValue).isEqualTo(Byte.MAX_VALUE);
 	}
 
 	@Test
@@ -112,6 +112,24 @@ public class TestRandomPrimitiveByteSupplier {
 		}
 		Assertions.assertThat(minValue).isEqualTo((byte)-10);
 		Assertions.assertThat(maxValue).isEqualTo((byte)35);
+	}
+
+	@Test
+	public void shouldWorkZeroRange(){
+		RandomPrimitiveByteSupplier supplier = new RandomPrimitiveByteSupplier(ThreadLocalRandom.current(), (byte)10, (byte)10);
+		byte minValue = Byte.MAX_VALUE;
+		byte maxValue = Byte.MIN_VALUE;
+		for(int i=0; i<100000; i++) {
+			byte value = supplier.getAsByte();
+			if(value > maxValue) {
+				maxValue = value;
+			}
+			if(value < minValue) {
+				minValue = value;
+			}
+		}
+		Assertions.assertThat(minValue).isEqualTo((byte)10);
+		Assertions.assertThat(maxValue).isEqualTo((byte)10);
 	}
 
 

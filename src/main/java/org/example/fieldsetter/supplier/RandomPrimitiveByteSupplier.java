@@ -10,11 +10,10 @@ public class RandomPrimitiveByteSupplier implements ByteSupplier {
 
 	public RandomPrimitiveByteSupplier(Random random, byte from, byte to) {
 		this.random = random;
-		if(from >= 0 && to > 0 || from < 0 && to <= 0) {
+		if(from <= to) {
 			supplier = () -> (byte)(this.random.nextInt(to - from + 1) + from);
-		} else if(from < 0) {
-			supplier = () -> (byte)(this.random.nextInt(to+1) - this.random.nextInt(1-from));
-		} else {
+		}
+		else {
 			throw new IllegalArgumentException(String.format("to=%d has to be greater then from=%d", from, to));
 		}
 	}

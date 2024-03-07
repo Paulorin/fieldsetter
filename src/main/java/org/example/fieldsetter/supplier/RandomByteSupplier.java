@@ -6,7 +6,6 @@ import java.util.function.Supplier;
 public class RandomByteSupplier implements Supplier<Byte> {
 	private final Random random;
 	private final RandomPrimitiveByteSupplier byteSupplier;
-	private final int valuePercentage;
 	private final Supplier<Byte> supplier;
 
 	public RandomByteSupplier(Random random, byte from, byte to, int nullPercentage) {
@@ -18,14 +17,13 @@ public class RandomByteSupplier implements Supplier<Byte> {
 		}
 		this.random = random;
 		byteSupplier = new RandomPrimitiveByteSupplier(random, from, to);
-		valuePercentage = 100 - nullPercentage;
-		if(valuePercentage == 0) {
+		if(nullPercentage == 100) {
 			supplier = () -> null;
-		} else if (valuePercentage == 100) {
+		} else if (nullPercentage == 0) {
 			supplier = byteSupplier::getAsByte;
 		} else {
 			supplier = () -> {
-				if(this.random.nextInt(101) > valuePercentage) {
+				if(this.random.nextInt(101) < nullPercentage) {
 					return null;
 				} else {
 					return byteSupplier.getAsByte();
