@@ -22,7 +22,7 @@ public class TestObjectFieldSetter {
 
 	@BeforeEach
 	public void beforeEach() {
-		fieldSetter = TestUtil.getObjectFieldSetter();
+		fieldSetter = new ObjectFieldSetter();
 	}
 
 	@Test
